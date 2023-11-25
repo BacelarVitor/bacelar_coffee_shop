@@ -1,3 +1,4 @@
+import 'package:bacelar_coffee_shop/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +10,35 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Login());
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Youtube',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          final bool isLoggedIn = snapshot.hasData;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (isLoggedIn) {
+            return HomePage();
+          } else {
+            return const Login();
+          }
+        },
+      ),
+    );
+  }
 }
 
 class Login extends StatelessWidget {
@@ -29,8 +58,6 @@ class Login extends StatelessWidget {
       idToken: googleAuth?.idToken,
     );
 
-    // Once signed in, return the UserCredential
-    print(credential.accessToken);
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
@@ -47,8 +74,13 @@ class Login extends StatelessWidget {
               ),
               const SizedBox(height: 20), // Add space of 20 pixels
               ElevatedButton(
-                onPressed: () {
-                  signInWithGoogle();
+                onPressed: () async {
+                  var user = await signInWithGoogle();
+                  print(user);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
                 },
                 child: const Text(
                   'Login',
