@@ -53,8 +53,19 @@ class Login extends StatelessWidget {
                           ),
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.white,
+                        side: BorderSide(
+                          color: Colors.brown[700]!,
+                          width: 2.0,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                       child: const Text(
-                        'Login',
+                        'Sign in with Google',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
