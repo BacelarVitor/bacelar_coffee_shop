@@ -27,30 +27,41 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'images/coffee_logo.png',
-                width: 150,
-              ),
-              const SizedBox(height: 20), // Add space of 20 pixels
-              ElevatedButton(
-                onPressed: () async {
-                  var user = await signInWithGoogle();
-                  print(user);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(fontSize: 20),
+        body: Expanded(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                      'images/coffee_logo.png',
+                      width: 150,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await signInWithGoogle();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
