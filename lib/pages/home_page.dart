@@ -26,7 +26,6 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await _logout();
-                // navigate back to login page
                 Navigator.pop(context);
               },
               child: const Text('Logout'),
