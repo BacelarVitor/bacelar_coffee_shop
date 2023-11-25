@@ -31,8 +31,9 @@ class Login extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const FlutterLogo(
-                size: 150,
+              Image.asset(
+                'images/coffee_logo.png',
+                width: 150,
               ),
               const SizedBox(height: 20), // Add space of 20 pixels
               ElevatedButton(
