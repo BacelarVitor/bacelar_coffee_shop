@@ -54,7 +54,8 @@ class Login extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black,
+                        foregroundColor: Colors.brown[
+                            700], // Set the text color to match the border color
                         backgroundColor: Colors.white,
                         side: BorderSide(
                           color: Colors.brown[700]!,
