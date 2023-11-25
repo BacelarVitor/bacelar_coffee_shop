@@ -1,4 +1,4 @@
-import 'package:bacelar_coffee_shop/pages/home_page.dart';
+import 'package:bacelar_coffee_shop/pages/menu_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,7 +49,7 @@ class Login extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
+                            builder: (context) => MenuPage(),
                           ),
                         );
                       },

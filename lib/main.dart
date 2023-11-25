@@ -1,10 +1,9 @@
-import 'package:bacelar_coffee_shop/pages/home_page.dart';
+import 'package:bacelar_coffee_shop/pages/menu_page.dart';
 import 'package:bacelar_coffee_shop/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (isLoggedIn) {
-            return HomePage();
+            return MenuPage();
           } else {
             return const Login();
           }
