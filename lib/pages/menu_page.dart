@@ -86,13 +86,30 @@ class DrinkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.brown[50], // Light caramel color
       child: ListTile(
         leading: CircleAvatar(
           backgroundImage: AssetImage(image),
         ),
-        title: Text(name),
-        subtitle: Text(description),
-        trailing: Text('\$${price.toStringAsFixed(2)}'),
+        title: Text(
+          name,
+          style: const TextStyle(
+            fontSize: 18, // Increased font size
+            fontWeight: FontWeight.bold, // Added bold font weight
+          ),
+        ),
+        subtitle: Text(
+          description,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Text(
+          '\$${price.toStringAsFixed(2)}',
+          style: const TextStyle(
+            fontSize: 20, // Increased font size
+            fontWeight: FontWeight.bold, // Added bold font weight
+          ),
+        ),
       ),
     );
   }
