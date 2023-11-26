@@ -16,6 +16,16 @@ class DrinkPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                // Add your customization logic here
+              },
+              child: const Text(
+                'Customize',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            const SizedBox(height: 16),
             Text(
               'Drink Name: ${drink.name}',
               style: const TextStyle(fontSize: 20),

@@ -48,32 +48,34 @@ class _MenuPageState extends State<MenuPage> {
           ),
         ],
       ),
-      body: drinks.isNotEmpty
-          ? ListView.builder(
-              itemCount: drinks.length,
-              itemBuilder: (context, index) {
-                final drink = drinks[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DrinkPage(drink: drink),
+      body: Center(
+        child: drinks.isNotEmpty
+            ? ListView.builder(
+                itemCount: drinks.length,
+                itemBuilder: (context, index) {
+                  final drink = drinks[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DrinkPage(drink: drink),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DrinkCard(
+                        name: drink.name,
+                        description: drink.description,
+                        price: drink.price,
                       ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: DrinkCard(
-                      name: drink.name,
-                      description: drink.description,
-                      price: drink.price,
                     ),
-                  ),
-                );
-              },
-            )
-          : const Center(child: CircularProgressIndicator()),
+                  );
+                },
+              )
+            : const CircularProgressIndicator(),
+      ),
     );
   }
 }
