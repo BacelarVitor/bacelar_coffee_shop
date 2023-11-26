@@ -1,36 +1,39 @@
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 
-class MenuPage extends StatelessWidget {
-  MenuPage({Key? key}) : super(key: key);
+class MenuPage extends StatefulWidget {
+  const MenuPage({Key? key}) : super(key: key);
 
-  // Create an instance of FirebaseAuth
+  @override
+  _MenuPageState createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // Create an instance of a class or perform some action here
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  late List<Drink> drinks = [];
 
-  // Function to handle the logout button press
+  @override
+  void initState() {
+    super.initState();
+    _loadDrinks();
+  }
+
+  Future<void> _loadDrinks() async {
+    final drinksSnapshot =
+        await FirebaseFirestore.instance.collection('drinks').get();
+    setState(() {
+      drinks =
+          drinksSnapshot.docs.map((doc) => Drink.fromSnapshot(doc)).toList();
+    });
+  }
+
   Future<void> _logout() async {
     await _auth.signOut();
     navigatorKey.currentState?.pop();
   }
 
-  final List<Drink> drinks = [
-    const Drink(
-      image: 'images/coffe_logo.png',
-      name: 'Cappuccino',
-      description: 'A classic Italian coffee drink.',
-      price: 3.99,
-    ),
-    const Drink(
-      image: 'images/coffe_logo.png',
-      name: 'Espresso',
-      description: 'A strong and concentrated coffee.',
-      price: 2.99,
-    ),
-    // Add more drinks here...
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,64 +48,105 @@ class MenuPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: drinks.length,
-        itemBuilder: (context, index) {
-          final drink = drinks[index];
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: DrinkCard(
-              image: drink.image,
-              name: drink.name,
-              description: drink.description,
-              price: drink.price,
-            ),
-          );
-        },
-      ),
+      body: drinks.isNotEmpty
+          ? ListView.builder(
+              itemCount: drinks.length,
+              itemBuilder: (context, index) {
+                final drink = drinks[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: DrinkCard(
+                    name: drink.name,
+                    description: drink.description,
+                    price: drink.price,
+                  ),
+                );
+              },
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
 
 class DrinkCard extends StatelessWidget {
-  final String image;
   final String name;
   final String description;
   final double price;
 
   const DrinkCard({
-    super.key,
-    required this.image,
+    Key? key,
     required this.name,
     required this.description,
     required this.price,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.brown[50], // Light caramel color
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(image),
+        title: Text(
+          name,
+          style: const TextStyle(
+            fontSize: 18, // Increased font size
+            fontWeight: FontWeight.bold, // Added bold font weight
+          ),
         ),
-        title: Text(name),
-        subtitle: Text(description),
-        trailing: Text('\$${price.toStringAsFixed(2)}'),
+        subtitle: Text(
+          description,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Text(
+          'R\$${price.toStringAsFixed(2)}',
+          style: const TextStyle(
+            fontSize: 20, // Increased font size
+            fontWeight: FontWeight.bold, // Added bold font weight
+          ),
+        ),
       ),
     );
   }
 }
 
 class Drink {
-  final String image;
+  final String id;
   final String name;
   final String description;
   final double price;
+  final List<Customization> customizations;
 
   const Drink({
-    required this.image,
+    required this.id,
     required this.name,
     required this.description,
     required this.price,
+    required this.customizations,
   });
+
+  factory Drink.fromSnapshot(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>;
+    return Drink(
+      id: snapshot.id,
+      name: data['name'],
+      description: data['description'],
+      price: data['price'],
+      customizations:
+          (data['customizations'] as List<dynamic>).map((customizationData) {
+        return Customization(
+          customizationData['name'] as String,
+          (customizationData['options'] as List<dynamic>)
+              .map((option) => option as String)
+              .toList(),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class Customization {
+  final String name;
+  final List<String> options;
+
+  Customization(this.name, this.options);
 }
