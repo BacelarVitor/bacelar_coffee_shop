@@ -56,7 +56,6 @@ class _MenuPageState extends State<MenuPage> {
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DrinkCard(
-                    image: drink.image,
                     name: drink.name,
                     description: drink.description,
                     price: drink.price,
@@ -70,14 +69,12 @@ class _MenuPageState extends State<MenuPage> {
 }
 
 class DrinkCard extends StatelessWidget {
-  final String image;
   final String name;
   final String description;
   final double price;
 
   const DrinkCard({
     Key? key,
-    required this.image,
     required this.name,
     required this.description,
     required this.price,
@@ -88,9 +85,6 @@ class DrinkCard extends StatelessWidget {
     return Card(
       color: Colors.brown[50], // Light caramel color
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(image),
-        ),
         title: Text(
           name,
           style: const TextStyle(
@@ -104,7 +98,7 @@ class DrinkCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Text(
-          '\$${price.toStringAsFixed(2)}',
+          'R\$${price.toStringAsFixed(2)}',
           style: const TextStyle(
             fontSize: 20, // Increased font size
             fontWeight: FontWeight.bold, // Added bold font weight
@@ -117,7 +111,6 @@ class DrinkCard extends StatelessWidget {
 
 class Drink {
   final String id;
-  final String image;
   final String name;
   final String description;
   final double price;
@@ -125,7 +118,6 @@ class Drink {
 
   const Drink({
     required this.id,
-    required this.image,
     required this.name,
     required this.description,
     required this.price,
@@ -136,7 +128,6 @@ class Drink {
     final data = snapshot.data() as Map<String, dynamic>;
     return Drink(
       id: snapshot.id,
-      image: data['image'],
       name: data['name'],
       description: data['description'],
       price: data['price'],
