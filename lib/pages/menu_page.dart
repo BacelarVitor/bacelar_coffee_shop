@@ -53,12 +53,22 @@ class _MenuPageState extends State<MenuPage> {
               itemCount: drinks.length,
               itemBuilder: (context, index) {
                 final drink = drinks[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DrinkCard(
-                    name: drink.name,
-                    description: drink.description,
-                    price: drink.price,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DrinkPage(drink: drink),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DrinkCard(
+                      name: drink.name,
+                      description: drink.description,
+                      price: drink.price,
+                    ),
                   ),
                 );
               },
@@ -149,4 +159,22 @@ class Customization {
   final List<String> options;
 
   Customization(this.name, this.options);
+}
+
+class DrinkPage extends StatelessWidget {
+  final Drink drink;
+
+  const DrinkPage({Key? key, required this.drink}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(drink.name),
+      ),
+      body: Center(
+        child: Text(drink.description),
+      ),
+    );
+  }
 }
