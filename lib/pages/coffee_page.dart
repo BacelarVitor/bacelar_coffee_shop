@@ -1,10 +1,10 @@
 import 'package:bacelar_coffee_shop/pages/menu_page.dart';
 import 'package:flutter/material.dart';
 
-class DrinkPage extends StatelessWidget {
+class CoffeePage extends StatelessWidget {
   final Drink drink;
 
-  const DrinkPage({Key? key, required this.drink}) : super(key: key);
+  const CoffeePage({Key? key, required this.drink}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

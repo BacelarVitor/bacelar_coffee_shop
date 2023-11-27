@@ -1,4 +1,4 @@
-import "package:bacelar_coffee_shop/pages/fon_page.dart";
+import 'package:bacelar_coffee_shop/pages/coffee_page.dart';
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -39,7 +39,7 @@ class _MenuPageState extends State<MenuPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FonPage(drink: drink),
+        builder: (context) => CoffeePage(drink: drink),
       ),
     );
   }
