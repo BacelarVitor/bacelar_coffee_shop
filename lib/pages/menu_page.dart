@@ -1,3 +1,4 @@
+import "package:bacelar_coffee_shop/pages/fon_page.dart";
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -34,6 +35,15 @@ class _MenuPageState extends State<MenuPage> {
     navigatorKey.currentState?.pop();
   }
 
+  void _navigateToDrinkPage(Drink drink) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FonPage(drink: drink),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,34 +58,28 @@ class _MenuPageState extends State<MenuPage> {
           ),
         ],
       ),
-      body: Center(
-        child: drinks.isNotEmpty
-            ? ListView.builder(
-                itemCount: drinks.length,
-                itemBuilder: (context, index) {
-                  final drink = drinks[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DrinkPage(drink: drink),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: DrinkCard(
-                        name: drink.name,
-                        description: drink.description,
-                        price: drink.price,
-                      ),
+      body: drinks.isNotEmpty
+          ? ListView.builder(
+              itemCount: drinks.length,
+              itemBuilder: (context, index) {
+                final drink = drinks[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToDrinkPage(drink);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DrinkCard(
+                      name: drink.name,
+                      description: drink.description,
+                      price: drink.price,
+                      customizations: drink.customizations,
                     ),
-                  );
-                },
-              )
-            : const CircularProgressIndicator(),
-      ),
+                  ),
+                );
+              },
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -84,38 +88,44 @@ class DrinkCard extends StatelessWidget {
   final String name;
   final String description;
   final double price;
+  final List<Customization> customizations;
 
   const DrinkCard({
     Key? key,
     required this.name,
     required this.description,
     required this.price,
+    required this.customizations,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.brown[50], // Light caramel color
-      child: ListTile(
-        title: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 18, // Increased font size
-            fontWeight: FontWeight.bold, // Added bold font weight
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 18, // Increased font size
+                fontWeight: FontWeight.bold, // Added bold font weight
+              ),
+            ),
+            subtitle: Text(
+              description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: Text(
+              'R\$${price.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontSize: 20, // Increased font size
+                fontWeight: FontWeight.bold, // Added bold font weight
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          description,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Text(
-          'R\$${price.toStringAsFixed(2)}',
-          style: const TextStyle(
-            fontSize: 20, // Increased font size
-            fontWeight: FontWeight.bold, // Added bold font weight
-          ),
-        ),
+        ],
       ),
     );
   }
