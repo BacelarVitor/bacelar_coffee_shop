@@ -8,6 +8,8 @@ class CoffeePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int quantity = 1; // Initialize quantity with a default value
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bacelar Coffee"),
@@ -33,6 +35,29 @@ class CoffeePage extends StatelessWidget {
               Text(
                 'Price: R\$${drink.price.toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text(
+                    'Quantity:',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownButton<int>(
+                    value: quantity,
+                    onChanged: (value) {
+                      // Update the quantity when the value changes
+                      quantity = value!;
+                    },
+                    items: List.generate(10, (index) => index + 1)
+                        .map((value) => DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            ))
+                        .toList(),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               Expanded(
