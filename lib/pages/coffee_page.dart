@@ -34,6 +34,18 @@ class CoffeePage extends StatelessWidget {
                 'Price: R\$${drink.price.toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 20),
               ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Add to order logic here
+                    },
+                    child: const Text('Add to Order'),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
