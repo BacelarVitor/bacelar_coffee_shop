@@ -19,18 +19,19 @@ class CoffeePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Drink Name: ${drink.name}',
+                drink.name,
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                drink.description,
+                style:
+                    const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
               ),
               const SizedBox(height: 16),
               Text(
                 'Price: R\$${drink.price.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Description: ${drink.description}',
                 style: const TextStyle(fontSize: 20),
               ),
             ],
