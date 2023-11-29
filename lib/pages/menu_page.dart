@@ -1,3 +1,4 @@
+import 'package:bacelar_coffee_shop/pages/coffee_page.dart';
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
@@ -34,6 +35,15 @@ class _MenuPageState extends State<MenuPage> {
     navigatorKey.currentState?.pop();
   }
 
+  void _navigateToDrinkPage(Drink drink) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CoffeePage(drink: drink),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,12 +63,18 @@ class _MenuPageState extends State<MenuPage> {
               itemCount: drinks.length,
               itemBuilder: (context, index) {
                 final drink = drinks[index];
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DrinkCard(
-                    name: drink.name,
-                    description: drink.description,
-                    price: drink.price,
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToDrinkPage(drink);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: DrinkCard(
+                      name: drink.name,
+                      description: drink.description,
+                      price: drink.price,
+                      customizations: drink.customizations,
+                    ),
                   ),
                 );
               },
@@ -72,38 +88,44 @@ class DrinkCard extends StatelessWidget {
   final String name;
   final String description;
   final double price;
+  final List<Customization> customizations;
 
   const DrinkCard({
     Key? key,
     required this.name,
     required this.description,
     required this.price,
+    required this.customizations,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.brown[50], // Light caramel color
-      child: ListTile(
-        title: Text(
-          name,
-          style: const TextStyle(
-            fontSize: 18, // Increased font size
-            fontWeight: FontWeight.bold, // Added bold font weight
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 18, // Increased font size
+                fontWeight: FontWeight.bold, // Added bold font weight
+              ),
+            ),
+            subtitle: Text(
+              description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: Text(
+              'R\$${price.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontSize: 20, // Increased font size
+                fontWeight: FontWeight.bold, // Added bold font weight
+              ),
+            ),
           ),
-        ),
-        subtitle: Text(
-          description,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Text(
-          'R\$${price.toStringAsFixed(2)}',
-          style: const TextStyle(
-            fontSize: 20, // Increased font size
-            fontWeight: FontWeight.bold, // Added bold font weight
-          ),
-        ),
+        ],
       ),
     );
   }
@@ -149,4 +171,22 @@ class Customization {
   final List<String> options;
 
   Customization(this.name, this.options);
+}
+
+class DrinkPage extends StatelessWidget {
+  final Drink drink;
+
+  const DrinkPage({Key? key, required this.drink}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(drink.name),
+      ),
+      body: Center(
+        child: Text(drink.description),
+      ),
+    );
+  }
 }
