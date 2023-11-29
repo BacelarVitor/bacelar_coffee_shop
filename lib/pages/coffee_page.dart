@@ -9,7 +9,7 @@ class CoffeePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int quantity = 1; // Initialize quantity with a default value
-
+    String milkType = 'Normal';
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bacelar Coffee"),
@@ -59,7 +59,40 @@ class CoffeePage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
+              // iterate through the customizations list and for each customization name create a checkbox
+              ...drink.customizations.map(
+                (customization) => Row(
+                  children: [
+                    Text(
+                      customization.name,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    DropdownButton<String>(
+                      items: customization.options
+                          .map(
+                            (option) => DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        milkType = value!.toString();
+                      },
+                      value: milkType,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ), // Add a SizedBox between the customizations and the button)
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
