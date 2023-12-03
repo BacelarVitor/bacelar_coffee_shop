@@ -26,7 +26,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
               'name': drink.name,
               'quantity': drink.quantity,
               'price': drink.price,
-              'milkType': drink.milkType ?? 'Normal',
+              'milkType': drink.milkType,
             };
           }).toList(),
           'address': order.address,
