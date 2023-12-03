@@ -1,5 +1,6 @@
 import 'package:bacelar_coffee_shop/pages/menu_page.dart';
 import 'package:bacelar_coffee_shop/pages/login_page.dart';
+import 'package:bacelar_coffee_shop/widget_tree.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,7 +37,7 @@ class App extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (isLoggedIn) {
-            return const MenuPage();
+            return const WidgetTree();
           } else {
             return const Login();
           }

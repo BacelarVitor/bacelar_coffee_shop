@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderPage extends ConsumerStatefulWidget {
-  final Order order;
-
-  const OrderPage({super.key, required this.order});
+  const OrderPage({super.key});
 
   @override
   ConsumerState<OrderPage> createState() => _OrderPageState();
