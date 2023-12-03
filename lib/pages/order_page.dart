@@ -1,5 +1,6 @@
 import 'package:bacelar_coffee_shop/class/order.dart' as pedido;
 import 'package:bacelar_coffee_shop/providers/order_provider.dart';
+import 'package:bacelar_coffee_shop/providers/widget_tree_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +37,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   @override
   Widget build(BuildContext context) {
     final order = ref.watch(ordersProvider);
+    double total = order.drinks.fold(0, (sum, drink) => sum + drink.price);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seu Pedido'),
@@ -66,6 +68,11 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                     );
                   },
                 ),
+              ),
+              Text(
+                'Total: \$${total.toStringAsFixed(2)}',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               TextFormField(
                 decoration:
@@ -99,6 +106,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                     order.address = address!;
                     await FinishOrder(order);
                     ref.read(ordersProvider.notifier).clearOrder();
+                    ref.read(widgetTreeProvider.notifier).update(0);
                   }
                 },
                 child: const Text('Finalizar Pedido'),
