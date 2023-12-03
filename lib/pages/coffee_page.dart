@@ -1,5 +1,6 @@
-import 'package:bacelar_coffee_shop/pages/menu_page.dart';
+import 'package:bacelar_coffee_shop/class/drink.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CoffeePage extends StatelessWidget {
   final Drink drink;
@@ -98,7 +99,7 @@ class CoffeePage extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add to order logic here
+                      Navigator.of(context).pop();
                     },
                     child: const Text('Add to Order'),
                   ),
