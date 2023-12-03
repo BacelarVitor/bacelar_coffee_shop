@@ -9,4 +9,10 @@ class Order {
   }
 
   String address = '';
+
+  Order copyWith({required List<DrinkOrder> drinks}) {
+    return Order()
+      ..drinks = drinks
+      ..address = address;
+  }
 }

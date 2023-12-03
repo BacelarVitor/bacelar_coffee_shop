@@ -1,16 +1,19 @@
 import 'package:bacelar_coffee_shop/class/drink.dart';
+import 'package:bacelar_coffee_shop/class/drink_order.dart';
+import 'package:bacelar_coffee_shop/providers/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CoffeePage extends StatelessWidget {
+class CoffeePage extends ConsumerWidget {
   final Drink drink;
 
   const CoffeePage({Key? key, required this.drink}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     int quantity = 1; // Initialize quantity with a default value
     String milkType = 'Normal';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bacelar Coffee"),
@@ -99,6 +102,14 @@ class CoffeePage extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: () {
+                      ref.read(ordersProvider.notifier).addDrink(
+                            DrinkOrder(
+                              name: drink.name,
+                              quantity: quantity,
+                              price: drink.price,
+                              milkType: milkType,
+                            ),
+                          );
                       Navigator.of(context).pop();
                     },
                     child: const Text('Add to Order'),

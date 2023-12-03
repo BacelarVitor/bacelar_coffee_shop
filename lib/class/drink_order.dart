@@ -4,5 +4,10 @@ class DrinkOrder {
   final int quantity;
   final double price;
 
-  DrinkOrder(this.name, this.milkType, this.quantity, this.price);
+  DrinkOrder({
+    required this.name,
+    required this.milkType,
+    required this.quantity,
+    required this.price,
+  });
 }
