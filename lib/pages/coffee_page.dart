@@ -4,13 +4,18 @@ import 'package:bacelar_coffee_shop/providers/order_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CoffeePage extends ConsumerWidget {
+class CoffeePage extends ConsumerStatefulWidget {
   final Drink drink;
-
-  const CoffeePage({Key? key, required this.drink}) : super(key: key);
+  const CoffeePage({super.key, required this.drink});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CoffeePage> createState() => _CoffeePageState();
+}
+
+class _CoffeePageState extends ConsumerState<CoffeePage> {
+  Drink get drink => widget.drink;
+  @override
+  Widget build(BuildContext context) {
     int quantity = 1; // Initialize quantity with a default value
     String milkType = 'Normal';
 
@@ -51,8 +56,9 @@ class CoffeePage extends ConsumerWidget {
                   DropdownButton<int>(
                     value: quantity,
                     onChanged: (value) {
-                      // Update the quantity when the value changes
-                      quantity = value!;
+                      setState(() {
+                        quantity = value!;
+                      });
                     },
                     items: List.generate(10, (index) => index + 1)
                         .map((value) => DropdownMenuItem<int>(
@@ -87,7 +93,9 @@ class CoffeePage extends ConsumerWidget {
                           )
                           .toList(),
                       onChanged: (value) {
-                        milkType = value!.toString();
+                        setState(() {
+                          milkType = value!.toString();
+                        });
                       },
                       value: milkType,
                     ),
