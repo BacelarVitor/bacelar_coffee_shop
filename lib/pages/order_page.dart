@@ -36,6 +36,15 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                     final drink = order.drinks[index];
                     return ListTile(
                       title: Text(drink.name),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () {
+                          // Remove the drink from the order
+                          setState(() {
+                            order.drinks.removeAt(index);
+                          });
+                        },
+                      ),
                       // Add more details about the drink here
                     );
                   },
@@ -55,6 +64,18 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                 },
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.brown[
+                      700], // Set the text color to match the border color
+                  backgroundColor: Colors.white,
+                  side: BorderSide(
+                    color: Colors.brown[700]!,
+                    width: 2.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();

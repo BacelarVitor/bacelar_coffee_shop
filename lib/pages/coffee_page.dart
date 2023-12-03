@@ -101,6 +101,18 @@ class CoffeePage extends ConsumerWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.brown[
+                          700], // Set the text color to match the border color
+                      backgroundColor: Colors.white,
+                      side: BorderSide(
+                        color: Colors.brown[700]!,
+                        width: 2.0,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
                     onPressed: () {
                       ref.read(ordersProvider.notifier).addDrink(
                             DrinkOrder(
