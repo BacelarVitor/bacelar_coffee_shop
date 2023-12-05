@@ -42,7 +42,7 @@ class _CoffeePageState extends ConsumerState<CoffeePage> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Price: R\$${drink.price.toStringAsFixed(2)}',
+                'Preço: R\$${drink.price.toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 16),
@@ -132,7 +132,7 @@ class _CoffeePageState extends ConsumerState<CoffeePage> {
                           );
                       Navigator.of(context).pop();
                     },
-                    child: const Text('Add to Order'),
+                    child: const Text('Adicionar ao pedido'),
                   ),
                 ),
               ),
